@@ -75,12 +75,8 @@ WSGI_APPLICATION = 'fuelfinder.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'fuel-finder',
-        'USER': 'intelli',
-        'PASSWORD': 'intelli12345#',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
