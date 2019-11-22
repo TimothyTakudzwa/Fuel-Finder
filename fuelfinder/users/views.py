@@ -33,7 +33,7 @@ def supplier_user_create(request):
             msg = "Error in Information Submitted"
             messages.error(request, msg)
     else:
-        form = UserForm()
+        form = ProfileForm()
 
 
     return render (request, 'users/add_user.html', {'form': form}) 
