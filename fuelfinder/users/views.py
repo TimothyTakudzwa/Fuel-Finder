@@ -15,16 +15,21 @@ def index(request):
 def supplier_user_create(request):
      
     if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES)
+        form = ProfileForm(request.POST)
         if form.is_valid():
             #puser = get_object_or_404(User, username='biddingwars')
             # puser = request.user
             # image_name = blog_save_image_upload(request)
             image_name = True 
             if image_name:
-                #form.save()
+                form.save()
+                user = User.objects.create(
+                    first_name=form.first,name,
+                    last_name=form.last_name,
+                    email = form.email)
+                user.save()    
                 contact = SupplierContact(
-                    user = form.user,
+                    user = user,
                     supplier_profile = form.supplier_profile,
                 )
                 contact.save()
