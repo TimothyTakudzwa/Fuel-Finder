@@ -10,7 +10,8 @@
 </div>
 
 {% load crispy_forms_tags %}
-<form>
+<form method="POST" action="{% url 'users:addUser' %}">
+{% csrf_token %}    
 {{ form|crispy }}
 <button class="btn btn-primary" type="submit">Add User Profile</button>
 </form>

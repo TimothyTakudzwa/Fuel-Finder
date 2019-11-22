@@ -22,10 +22,10 @@ def supplier_user_create(request):
             # image_name = blog_save_image_upload(request)
             image_name = True 
             if image_name:
-                form.save()
+                #form.save()
                 contact = SupplierContact(
-                    user = form.user
-                    supplier_profile = form.supplier_profile
+                    user = form.user,
+                    supplier_profile = form.supplier_profile,
                 )
                 contact.save()
                 messages.success(request, _('Your profile was successfully updated!'))

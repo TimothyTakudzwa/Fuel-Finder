@@ -18,7 +18,7 @@ class UserForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = SupplierContact
-        fields = '__all__'   
+        fields = ['user','supplier_profile']  
 
 class ActionForm(forms.Form):
     pass                    
