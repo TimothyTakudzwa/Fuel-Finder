@@ -8,6 +8,7 @@ urlpatterns = [
     path('', include('finder.urls')),
     path('register/', include('supplier.urls')),
     path('buyer/', include('buyer.urls')),
+    path('whatsapp/', include('whatsapp.urls')),
 ]
 
 

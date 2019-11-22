@@ -8,12 +8,16 @@
   <component name="TemplatesService">
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/fuelfinder/finder/templates" />
+        <option value="$MODULE_DIR$/fuelfinder/venv/Lib/site-packages/django/forms/templates" />
       </list>
     </option>
   </component>
   <component name="TestRunnerService">
+<<<<<<< HEAD
     <option name="projectConfiguration" value="Twisted Trial" />
     <option name="PROJECT_TEST_RUNNER" value="Twisted Trial" />
+=======
+    <option name="PROJECT_TEST_RUNNER" value="Unittests" />
+>>>>>>> 0f3fc460d993dd58879c82fadf3df91c51a5a9d7
   </component>
 </module>
