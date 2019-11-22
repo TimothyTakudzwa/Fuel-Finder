@@ -2,12 +2,12 @@ from django.shortcuts import render
 
 
 from supplier.models import *
-from supplier.form import 
+from supplier.forms import *
 
 from datetime import datetime
 
 def index(request):
-    return render('users/index.html')
+    return render(request, 'users/index.html')
 
 # Begining Of Supplier Management
 
@@ -38,7 +38,7 @@ def supplier_user_create(request):
     else:
         form = UserForm()                                
 
-    return render (request, 'user/add_user', {'form': form}) 
+    return render (request, 'user/add_user.html', {'form': form}) 
 
 def edit_supplier(request,id):
     supplier = get_object_or_404(SupplierProfile, id=id)
