@@ -12,6 +12,7 @@ from datetime import date
 from .forms import PasswordChange, RegistrationForm, RegistrationProfileForm,\
     RegistrationEmailForm, UserUpdateForm, ProfilePictureUpdateForm, ProfileUpdateForm, FuelRequestForm
 from .models import SupplierProfile, Province, FuelUpdate, FuelRequest, Transaction, Rating, TokenAuthentication
+from ..whatsapp.models import BuyerProfile
 
 
 # today's date
@@ -67,17 +68,22 @@ def verification(request, token, user_id):
     context = {
         'title': 'Fuel Finder | Verification',
     }
-    user = TokenAuthentication.objects.filter(user__id=user_id, key=token)
-    if user.exists():
-        user = User.objects.get(id=user_id)
-        user.is_active = True
-        user.save()
-        messages.success(request, f"{user.username}'s Account is now verified. Login to continue")
-        return redirect('login')
+    token_check = TokenAuthentication.objects.filter(key=token).exists()
+    if token_check:
+        user_check = TokenAuthentication.objects.get(key=token, user__id=user_id).exists()
+        if user_check:
+            user = User.objects.filter(id=user_id)
+            user.is_active = True
+            user.save()
+            messages.success(request, 'Verification Success')
+            return redirect('login')
+        else:
+            messages.warning(request, "Username doesn't exist")
+            return redirect('login')
     else:
-        messages.warning(request, 'Wrong authentication token')
-        return  redirect('login')
-    return  render(request, 'supplier/accounts/verification.html', context=context)
+        messages.warning(request, 'Wrong Token')
+        return redirect('login')
+    return render(request, 'supplier/accounts/verification.html', context=context)
 
 
 def sign_in(request):
@@ -139,9 +145,9 @@ def account(request):
 
     }
     if request.method == 'POST':
-        userform = UserUpdateForm(request.POST, instance=request.user)
-        if userform.is_valid():
-            userform.save()
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        if user_form.is_valid():
+            user_form.save()
             messages.success(request, f'Profile successfully updated')
             return redirect('account')
         else:
@@ -159,13 +165,12 @@ def fuel_request(request):
     if request.method == 'POST':
         submitted_id = request.POST.get('request_id')
         if FuelRequest.objects.filter(id=submitted_id).exists():
-            pass
-            # request_id = FuelRequest.objects.get(id=submitted_id)
-            # buyer_id = Buyer.objects.get(id=buyer_id)
-            # Transaction.objects.create(request_id = request_id,
-            #                            buyer_id = buyer_id)
-            # messages.success(request, f'You have accepted a request for {request_id.amount} litres from {buyer_id.name}')
-            # return redirect('fuel-request')
+            request_id = FuelRequest.objects.get(id=submitted_id)
+            buyer_id = BuyerProfile.objects.get(id=request.user)
+            Transaction.objects.create(request_id=request_id,
+                                       buyer_id=buyer_id)
+            messages.success(request, f'You have accepted a request for {request_id.amount} litres from {buyer_id.name}')
+            return redirect('fuel-request')
     else:
         messages.warning(request, 'Oops something just went wrong')
         return redirect('fuel-request')

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
+from ..whatsapp.models import BuyerProfile
 
 
 class SupplierProfile(models.Model):
@@ -80,7 +81,7 @@ class FuelRequest(models.Model):
 
 class Transaction(models.Model):
     request_id = models.ForeignKey(FuelRequest, on_delete=models.DO_NOTHING, related_name='request')
-    buyer_id = models.ForeignKey(Buyer, on_delete=models.DO_NOTHING, related_name='buyer')
+    buyer_id = models.ForeignKey(BuyerProfile, on_delete=models.DO_NOTHING, related_name='buyer')
     date = models.DateField(auto_now_add=True)
     time = models.TimeField(auto_now_add=True)
 

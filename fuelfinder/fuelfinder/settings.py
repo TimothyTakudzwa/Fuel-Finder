@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'supplier.apps.SupplierConfig',
     'users.apps.UsersConfig',
     'whatsapp.apps.WhatsappConfig',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
