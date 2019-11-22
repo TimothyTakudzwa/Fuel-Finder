@@ -23,6 +23,11 @@ def supplier_user_create(request):
             image_name = True 
             if image_name:
                 form.save()
+                contact = SupplierContact(
+                    user = form.user
+                    supplier_profile = form.supplier_profile
+                )
+                contact.save()
                 messages.success(request, _('Your profile was successfully updated!'))
                 return redirect('user:index')
             else:
