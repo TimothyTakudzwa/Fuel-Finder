@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'finder.apps.FinderConfig',
     'django.contrib.admin',
     'users.apps.UsersConfig',
     'django.contrib.auth',
