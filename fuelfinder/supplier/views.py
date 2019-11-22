@@ -38,7 +38,8 @@ def register(request):
             user.save()
             
             token = secrets.token_hex(12)
-            url = f'/verification/{token}/{user.id}'
+            domain = request.get_host()
+            url = f'{domain}/verification/{token}/{user.id}'
 
             sender = f'Fuel Finder Accounts<tests@marlvinzw.me>'
             subject = 'User Registration'
@@ -135,7 +136,18 @@ def change_password(request):
 def account(request):
     context = {
         'title': 'Fuel Finder | Account',
+        'user': UserUpdateForm(instance=request.user)
+
     }
+    if request.method == 'POST':
+        userform = UserUpdateForm(request.POST, instance=request.user)
+        if userform.is_valid():
+            userform.save()
+            messages.success(request, f'Profile successfully updated')
+            return redirect('account')
+        else:
+            messages.warning(request, f'Something went wrong while saving your changes')
+            return redirect('account')
     return render(request, 'supplier/accounts/account.html', context=context)
 
 
