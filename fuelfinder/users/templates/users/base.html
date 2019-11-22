@@ -172,7 +172,11 @@
       <div class="">
         <div class="container-fluid">
           <!-- your content here -->
+
+          {% comment %}
           {% include 'includes/_messages.html' %}
+          {% endcomment %}
+          
           {% block body %}{% endblock %}
         </div>
       </div>
