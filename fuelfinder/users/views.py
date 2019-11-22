@@ -3,6 +3,7 @@ from django.shortcuts import render
 
 from supplier.models import *
 from supplier.forms import *
+from .forms import *
 
 from datetime import datetime
 
@@ -14,19 +15,15 @@ def index(request):
 def supplier_user_create(request):
      
     if request.method == 'POST':
-        form = UserForm(request.POST, request.FILES) 
+        form = ProfileForm(request.POST, request.FILES)
         if form.is_valid():
             #puser = get_object_or_404(User, username='biddingwars')
             # puser = request.user
             # image_name = blog_save_image_upload(request)
-            
+            image_name = True 
             if image_name:
-                data = form.cleaned_data
-                user = User(name=form.name,
-                            email=form.email,
-                            created=datetime.now(),
-                            )
-                user.save()
+                form.save()
+                messages.success(request, _('Your profile was successfully updated!'))
                 return redirect('user:index')
             else:
                 msg = "There was an error uploading the image"
@@ -36,9 +33,10 @@ def supplier_user_create(request):
             msg = "Error in Information Submitted"
             messages.error(request, msg)
     else:
-        form = UserForm()                                
+        form = UserForm()
 
-    return render (request, 'user/add_user.html', {'form': form}) 
+
+    return render (request, 'users/add_user.html', {'form': form}) 
 
 def edit_supplier(request,id):
     supplier = get_object_or_404(SupplierProfile, id=id)

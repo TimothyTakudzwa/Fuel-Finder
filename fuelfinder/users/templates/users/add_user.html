@@ -1,8 +1,18 @@
-{% extends "base.html" %}
+{% extends "users/base.html" %}
 {% block body %}
+<div class="jumbotron">
+    <h1 class="display-3">Super User Dashboard</h1>
+    <hr class="my-2">
+    
+    <p class="lead">
+        Add User
+    </p>
+</div>
 
 {% load crispy_forms_tags %}
 
-{% crispy form %}
+{{ form|crispy }}
 
-  {% endblock %}
+<button class="btn btn-primary" type="submit">Add User Profile</button>
+
+{% endblock %}
