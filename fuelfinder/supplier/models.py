@@ -66,8 +66,8 @@ class FuelRequest(models.Model):
     payment_method = models.CharField(max_length=200)
     delivery_method = models.CharField(max_length=200)
     location = models.ForeignKey(Province, on_delete=models.DO_NOTHING, related_name='request_location')
-    date = models.DateField()
-    time = models.TimeField()
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
     is_deleted = models.BooleanField(default=False)
 
     class Meta:
@@ -75,4 +75,16 @@ class FuelRequest(models.Model):
 
     def __str__(self):
         return f'{str(self.name)} - {str(self.amount)}'
+
+class Transaction(models.Model):
+    request_id = models.ForeignKey(FuelRequest, on_delete=models.DO_NOTHING)
+    buyer_id = models.ForeignKey(Buyer, on_delete=models.DO_NOTHING)
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['date', 'time']
+
+    def __str__(self):
+        return f'{str(self.buyer_id)} - {str(self.request_id)}'
 

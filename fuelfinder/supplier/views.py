@@ -11,7 +11,7 @@ from datetime import date
 
 from .forms import PasswordChange, RegistrationForm, RegistrationProfileForm,\
     RegistrationEmailForm, UserUpdateForm, ProfilePictureUpdateForm, ProfileUpdateForm, FuelRequestForm
-from .models import SupplierProfile, Province, FuelUpdate, FuelRequest
+from .models import SupplierProfile, Province, FuelUpdate, FuelRequest, Transaction
 
 
 # today's date
@@ -143,6 +143,19 @@ def account(request):
 def fuel_request(request):
     context = {
         'title': 'Fuel Finder | Account',
+        'requests': FuelRequest.objects.filter(date=today)
     }
+    if request.method == 'POST':
+        submitted_id = request.POST.get('request_id')
+        if FuelRequest.objects.filter(id=submitted_id).exists():
+           request_id = FuelRequest.objects.get(id=submitted_id)
+           buyer_id = Buyer.objects.get(id=buyer_id)
+           Transaction.objects.create(request_id = request_id,
+                                      buyer_id = buyer_id)
+            messages.success(request, f'You have accepted a request for {request_id.amount} litres from {buyer_id.name}')
+            return redirect('fuel-request')
+        else:
+            messages.warning(request, 'Oops something just went wrong')
+            return redirect('fuel-request')
     return render(request, 'supplier/accounts/fuel_request.html', context=context)
 
