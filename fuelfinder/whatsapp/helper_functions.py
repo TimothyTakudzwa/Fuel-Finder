@@ -56,10 +56,11 @@ def requests_handler(user, message):
         response_message = "How many litres do you want?"
         fuel_type = "Petrol" if message == '1' else "Diesel"
         FuelRequest.objects.create(fuel_type = fuel_type)
+        
         user.position = 4
         user.save()
     elif user.position == 4:
-        response_message = ''
+        response_message = fuel_finder()
     return response_message
 
-def fuel_finder(fuel_request)
+def fuel_finder(fuel_request, user_id):
