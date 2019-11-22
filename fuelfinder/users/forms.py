@@ -1,18 +1,24 @@
-from django import forms
-from .models import *
 from datetime import timedelta, date
-from .utils import *
-from django.contrib.auth.models import User
 
+from django import forms
+#from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+
+from .models import *
+from supplier.models import *
+
+from .utils import *
 from .widgets.select_time_widget import *
 
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email')
 
-def UserForm(forms.Form):
-    name = forms.CharField(label='First Name(s)', required=True,
-                                max_length=30)
-    email = forms.CharField(label='Email', required=False, required=True)
-    
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = SupplierContact
+        fields = '__all__'   
 
 class ActionForm(forms.Form):
     pass                    
