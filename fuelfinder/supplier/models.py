@@ -77,9 +77,10 @@ class FuelRequest(models.Model):
     def __str__(self):
         return f'{str(self.name)} - {str(self.amount)}'
 
+
 class Transaction(models.Model):
-    request_id = models.ForeignKey(FuelRequest, on_delete=models.DO_NOTHING)
-    buyer_id = models.ForeignKey(Buyer, on_delete=models.DO_NOTHING)
+    request_id = models.ForeignKey(FuelRequest, on_delete=models.DO_NOTHING, related_name='request')
+    buyer_id = models.ForeignKey(Buyer, on_delete=models.DO_NOTHING, related_name='buyer')
     date = models.DateField(auto_now_add=True)
     time = models.TimeField(auto_now_add=True)
 
@@ -89,3 +90,25 @@ class Transaction(models.Model):
     def __str__(self):
         return f'{str(self.buyer_id)} - {str(self.request_id)}'
 
+
+class Rating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='rated_name')
+    supplier = models.ForeignKey(SupplierProfile, on_delete=models.DO_NOTHING, related_name='supplier_rating')
+    score = models.DecimalField(max_digits=2, decimal_places=2, default=0)
+
+    class Meta:
+        ordering = ['user', 'score']
+
+    def __str__(self):
+        return f'{str(self.user)} - {str(self.score)}'
+
+
+class TokenAuthentication(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='token_authentication')
+    key = models.CharField(max_length=16)
+
+    class Meta:
+        ordering = ['user']
+
+    def __str__(self):
+        return str(self.user)

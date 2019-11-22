@@ -11,7 +11,7 @@ from datetime import date
 
 from .forms import PasswordChange, RegistrationForm, RegistrationProfileForm,\
     RegistrationEmailForm, UserUpdateForm, ProfilePictureUpdateForm, ProfileUpdateForm, FuelRequestForm
-from .models import SupplierProfile, Province, FuelUpdate, FuelRequest, Transaction
+from .models import SupplierProfile, Province, FuelUpdate, FuelRequest, Transaction, Rating, TokenAuthentication
 
 
 # today's date
@@ -38,6 +38,8 @@ def register(request):
             user.save()
             
             token = secrets.token_hex(12)
+            TokenAuthentication.objects.create(user=request.user, key=token)
+
             domain = request.get_host()
             url = f'{domain}/verification/{token}/{user.id}'
 
@@ -65,20 +67,17 @@ def verification(request, token, user_id):
     context = {
         'title': 'Fuel Finder | Verification',
     }
-    query_id = user_id
-    check = User.objects.filter(id=user_id)
-
-    if check.exists():
-        user = User.objects.get(id=query_id)
+    user = TokenAuthentication.objects.filter(user__id=user_id, key=token)
+    if user.exists():
+        user = User.objects.get(id=user_id)
         user.is_active = True
         user.save()
-
-        messages.success(request, f'Welcome {user.username}, please login to continue')
+        messages.success(request, f"{user.username}'s Account is now verified. Login to continue")
         return redirect('login')
     else:
-        messages.warning(request, 'Wrong verification link')
-        return redirect('login')
-    return render(request, 'supplier/accounts/verification.html', context=context)
+        messages.warning(request, 'Wrong authentication token')
+        return  redirect('login')
+    return  render(request, 'supplier/accounts/verification.html', context=context)
 
 
 def sign_in(request):
@@ -160,14 +159,15 @@ def fuel_request(request):
     if request.method == 'POST':
         submitted_id = request.POST.get('request_id')
         if FuelRequest.objects.filter(id=submitted_id).exists():
-           request_id = FuelRequest.objects.get(id=submitted_id)
-           buyer_id = Buyer.objects.get(id=buyer_id)
-           Transaction.objects.create(request_id = request_id,
-                                      buyer_id = buyer_id)
-            messages.success(request, f'You have accepted a request for {request_id.amount} litres from {buyer_id.name}')
-            return redirect('fuel-request')
-        else:
-            messages.warning(request, 'Oops something just went wrong')
-            return redirect('fuel-request')
+            pass
+            # request_id = FuelRequest.objects.get(id=submitted_id)
+            # buyer_id = Buyer.objects.get(id=buyer_id)
+            # Transaction.objects.create(request_id = request_id,
+            #                            buyer_id = buyer_id)
+            # messages.success(request, f'You have accepted a request for {request_id.amount} litres from {buyer_id.name}')
+            # return redirect('fuel-request')
+    else:
+        messages.warning(request, 'Oops something just went wrong')
+        return redirect('fuel-request')
     return render(request, 'supplier/accounts/fuel_request.html', context=context)
 
