@@ -22,9 +22,9 @@ def supplier_user_create(request):
             # image_name = blog_save_image_upload(request)
             image_name = True 
             if image_name:
-                form.save()
+                #form.save()
                 user = User.objects.create(
-                    first_name=form.first,name,
+                    first_name=form.first_name,
                     last_name=form.last_name,
                     email = form.email)
                 user.save()    
