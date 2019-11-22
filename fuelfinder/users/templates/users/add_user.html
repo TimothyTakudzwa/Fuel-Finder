@@ -1,55 +1,8 @@
-{% extends "user_base.html" %}
+{% extends "base.html" %}
 {% block body %}
-<h3>Add New User</h3>
-<div class="row" style="background:#402d57e0">
-  <form method="POST" action="" style="width: 66%;">
-      {{ form.csrf_token() }}
-      <div class="form-group">
-        {{ render_field(form.username, class_="form-control") }}
-      </div>
-      <div class="form-group">
-        {{ render_field(form.address, class_="form-control") }}
-      </div>
-      <div class="form-group">
-          {{ render_field(form.email, class_="form-control") }}
-        </div>
-        <div class="form-group">
-          {{ render_field(form.account_no, class_="form-control") }}
-        </div>
-        <div class="form-group">
-          {{ render_field(form.password, class_="form-control") }}
-        </div>
-        <div class="form-group">
-          {{ render_field(form.phone_number, class_="form-control") }}
-        </div>
-        <div class="form-group">
-          {{ render_field(form.destination_bank, class_="form-control") }}
-        </div>
-        <div class="form-group">
-          {{ render_field(form.is_blocked, class_="form-control") }}
-        </div>
-        <div class="form-group">
-          {{ render_field(form.rating, class_="form-control") }}
-        </div>  
-        <div class="form-group">
-            {{ render_field(form.stage, class_="form-control") }}
-          </div>
-      <div class="form-group">
-              {{ render_field(form.position, class_="form-control") }}
-            </div>
-        <div class="form-group">
-              {{ render_field(form.is_required, class_="form-control") }}
-            </div>  
-      <div class="form-group">
-      {{ render_field(form.last_request_id, class_="form-control") }}
-      </div>
-      <div class="form-group">
-      {{ render_field(form.nlp_stage, class_="form-control") }}
-      </div> 
-      <div class="form-group">
-          {{ render_field(form.user_role, class_="form-control") }}
-          </div>         
-      <p><input class="btn btn-primary" type="submit" value="Submit">
-    </form>
-  </div>  
+
+{% load crispy_forms_tags %}
+
+{% crispy form %}
+
   {% endblock %}
