@@ -37,7 +37,7 @@ class SupplierContactForm(forms.Form):
                              widget=forms.PasswordInput, max_length=100)
 
     def clean(self):
-        cleaned_data = super(OrganisationUserForm, self).clean()
+        cleaned_data = super(SupplierContactForm, self).clean()
         password = cleaned_data.get("password")
         password2 = cleaned_data.get("password2")
         if password != password2:
