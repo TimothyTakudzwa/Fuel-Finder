@@ -21,6 +21,8 @@
    <link href="{% static 'finder/assets/css/material-dashboard.css' %}" rel="stylesheet" />
    <!-- CSS Just for demo purpose, don't include it in your project -->
    <link href="{% static 'finder/assets/demo/demo.css' %}" rel="stylesheet" />
+   <link href="{% static 'finder/assets/css/datatables.css' %}" rel="stylesheet" />
+   <link href="{% static 'finder/assets/css/datatables.min.css' %}" rel="stylesheet" />
  </head>
  
  <body class="">
@@ -60,14 +62,14 @@
            </li>
  
            <li class="nav-item">
-             <a class="nav-link" href="./users">
+             <a class="nav-link" href="{% url 'users:suppliers_list' %}">
                <i class="material-icons">people</i>
-               <p>Users</p>
+               <p>Suppliers</p>
              </a>
            </li>  
  
            <li class="nav-item ">
-             <a class="nav-link" href="{% url 'users:addUser' %}">
+             <a class="nav-link" href="./add_user.html">
                <i class="material-icons">person</i>
                <p>Create User</p>
              </a>
@@ -186,12 +188,15 @@
    <!-- Chartist JS -->
    <script src="{% static 'finder/assets/js/plugins/chartist.min.js' %}"></script>
    <!--  Notifications Plugin    -->
+   <script src="{% static 'finder/assets/js/datatables.js' %}"></script>
+   <script src="{% static 'finder/assets/js/datatables.min.js' %}"></script>
    <script src="{% static 'finder/assets/js/plugins/bootstrap-notify.js' %}"></script>
    <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
    <script src="{% static 'finder/assets/js/material-dashboard.js' %}" type="text/javascript"></script>
    <!-- Material Dashboard DEMO methods, don't include it in your project! -->
    <script src="{% static 'finder/assets/demo/demo.js' %}"></script>
    <script>
+     
      $(document).ready(function() {
        $().ready(function() {
          $sidebar = $('.sidebar');
@@ -369,6 +374,11 @@
  
      });
    </script>
+   <script>
+      $(document).ready(function() {
+        $('#example').DataTable({"order": [[ 0, "desc" ]]});
+      } );
+    </script>
  </body>
  
  </html>
