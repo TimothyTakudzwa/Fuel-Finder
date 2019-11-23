@@ -10,11 +10,17 @@ from datetime import datetime
 def index(request):
     return render(request, 'users/index.html')
 
+
+def suppliers_list(request):
+    suppliers = SupplierProfile.objects.all()
+    return render(request, 'users/suppliers_list.html', {'suppliers': suppliers})
+
 # Begining Of Supplier Management
 
-def supplier_user_create(request):
-     
+def supplier_user_create(request, sid):
+    supplier = get_object_or_404(SupplierProfile, id=sid) 
     if request.method == 'POST':
+<<<<<<< HEAD
         #form = ProfileForm(request.POST)
         form = ProfileForm(request.POST)
         if form.is_valid():
@@ -41,15 +47,37 @@ def supplier_user_create(request):
             #else:
                # msg = "There was an error uploading the image"
                 #messages.error(request, msg)    
+=======
+        user_count = SupplierContact.objects.filter(supplier_profile=supplier).count()
+        if user_count > 50:
+            raise Http404("Organisations has 50 users, delete some ")
+        form = SupplierContactForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = User.objects.create_user(email, email, password)
+            user.last_name = form.cleaned_data['last_name']
+            user.first_name = form.cleaned_data['first_name']
+            user.save()   
+            contact = SupplierContact(user = user,
+                        cellphone=form.cleaned_data['cellphone'],
+                        telephone=form.cleaned_data['telephone'],
+                        supplier_profile = form.supplier_profile,
+                    )
+            contact.save()
+            messages.success(request, _('Your profile was successfully updated!'))
+            return redirect('user:index')
+            
+>>>>>>> d8445abdfc2160778255057ef3a1f38fe9faa096
         
         else:
             msg = "Error in Information Submitted"
             messages.error(request, msg)
     else:
-        form = ProfileForm()
+        form = SupplierContactForm()
 
 
-    return render (request, 'users/add_user.html', {'form': form}) 
+    return render (request, 'users/add_user.html', {'form': form, 'supplier': supplier}) 
 
 def edit_supplier(request,id):
     supplier = get_object_or_404(SupplierProfile, id=id)
