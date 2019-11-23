@@ -15,29 +15,32 @@ def index(request):
 def supplier_user_create(request):
      
     if request.method == 'POST':
+        #form = ProfileForm(request.POST)
         form = ProfileForm(request.POST)
         if form.is_valid():
             #puser = get_object_or_404(User, username='biddingwars')
             # puser = request.user
             # image_name = blog_save_image_upload(request)
             image_name = True 
-            if image_name:
-                #form.save()
-                user = User.objects.create(
-                    first_name=form.first_name,
-                    last_name=form.last_name,
-                    email = form.email)
-                user.save()    
-                contact = SupplierContact(
-                    user = user,
-                    supplier_profile = form.supplier_profile,
-                )
-                contact.save()
-                messages.success(request, _('Your profile was successfully updated!'))
-                return redirect('user:index')
-            else:
-                msg = "There was an error uploading the image"
-                messages.error(request, msg)    
+            #if image_name:
+                
+            user = User(
+                first_name=form.cleaned_data.get('first_name'),
+                last_name=form.cleaned_data.get('last_name'),
+                email = form.cleaned_data.get('email'))
+            user.save()   
+            ''' 
+            contact = SupplierContact(
+                user = user,
+                supplier_profile = form.cleaned_data['supplier_contact'],
+            )
+            contact.save()
+            '''
+            messages.success(request, _('Your profile was successfully updated!'))
+            return redirect('user:index')
+            #else:
+               # msg = "There was an error uploading the image"
+                #messages.error(request, msg)    
         
         else:
             msg = "Error in Information Submitted"
