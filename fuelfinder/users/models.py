@@ -5,11 +5,13 @@ from supplier.models import *
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 class SupplierContact(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     supplier_profile = models.ForeignKey(SupplierProfile,on_delete=models.CASCADE)
     telephone = models.CharField(max_length=300, blank=True)
+    cellphone = models.CharField(max_length=300, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)
 

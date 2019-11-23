@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 
 
 from supplier.models import *
@@ -27,18 +27,17 @@ def supplier_user_create(request, sid):
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
+            cellphone = form.cleaned_data['cellphone']
+            telephone = form.cleaned_data['telephone']
+
             user = User.objects.create_user(email, email, password)
             user.last_name = form.cleaned_data['last_name']
             user.first_name = form.cleaned_data['first_name']
             user.save()   
-            contact = SupplierContact(user = user,
-                        cellphone=form.cleaned_data['cellphone'],
-                        telephone=form.cleaned_data['telephone'],
-                        supplier_profile = form.supplier_profile,
-                    )
-            contact.save()
-            messages.success(request, _('Your profile was successfully updated!'))
-            return redirect('user:index')
+            contact = SupplierContact.objects.create(user=user, cellphone=cellphone, telephone=telephone, supplier_profile=supplier)
+            #contact.save()
+            messages.success(request, ('Your profile was successfully updated!'))
+            return redirect('users:suppliers_list')
             
         
         else:

@@ -9,7 +9,7 @@
     </p>
 </div>
 
-<div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+<div class="card text-white bg-info mb-3" style="max-width: 180rem;">
     <div class="card-header">{{ supplier.name }}</div>
     <div class="card-body">
       <h5 class="card-title"> {{ supplier.bpn }}</h5>
@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="{{supplier.id}}" aria-hidden="true">
+  <div class="modal fade" id="{{supplier.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
